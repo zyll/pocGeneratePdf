@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+if ARGV.length < 2
+  puts "./bench canvas|prawn load(int)"
+  exit 1
+end
+
+def run(command, load)
+  load.times do |i|
+    if !fork
+      exec "#{command} #{i}"
+    end
+  end
+end
+
+load = ARGV[1].to_i
+
+case ARGV[0]
+when 'canvas'
+  Dir.chdir "canvas"
+  run 'node app.js', load
+when 'prawn'
+  Dir.chdir "prawn"
+  run 'ruby app.rb', load
+end
+load.times { Process.wait }

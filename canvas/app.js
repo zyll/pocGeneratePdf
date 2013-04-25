@@ -38,9 +38,9 @@ ctx.addFont(font);
 ctx.textDrawingMode = 'glyph';
 img('/../img/squid.png', ctx, function() {
   someText(ctx);
-  save('glyph.pdf', canvas);
+  save('glyph_' + (process.argv[2] || '1') + '.pdf', canvas);
 });
-
+/*
 var canvas2 = new Canvas(500, 500, 'pdf')
 var ctx2 = canvas2.getContext('2d');
 ctx2.addFont(font);
@@ -49,3 +49,4 @@ img('/../img/squid.png', ctx2, function() {
   someText(ctx2);
   save('path.pdf', canvas2);
 });
+*/
