@@ -8,9 +8,12 @@ Prawn::Document.generate(output, page_size: [500, 500], page_layout: :portrait) 
   font_families.update("Noto" => {
                          :normal => "../fonts/noto.ttf"
                        })
-  image "../img/squid.png", at: [80, 370]
-  start_new_page
   font 'Noto', size: 22
-  text lorem
+
+  30.times do
+    image "../img/squid.png", at: [80, 370]
+    start_new_page
+    text lorem
+  end
 end
 puts "created #{output} (size: #{File.stat(output).size})"

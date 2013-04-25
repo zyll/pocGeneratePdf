@@ -14,11 +14,7 @@ function save(filename, canvas) {
 function img(src, ctx, cb) {
   fs.readFile(__dirname + src, function(err, data) {
     if(err) throw err
-    var img = new Image;
-    img.src = data;
-    ctx.drawImage(img, 100, 100);
-    ctx.addPage();
-    cb(err);
+    cb(data);
   });
 }
 
@@ -34,12 +30,21 @@ var font = new Font('Noto', "../fonts/noto.ttf");
 
 var canvas = new Canvas(500, 500, 'pdf')
 var ctx = canvas.getContext('2d');
-ctx.addFont(font);
-ctx.textDrawingMode = 'glyph';
-img('/../img/squid.png', ctx, function() {
-  someText(ctx);
-  save('glyph_' + (process.argv[2] || '1') + '.pdf', canvas);
+
+img('/../img/squid.png', ctx, function(data) {
+    ctx.addFont(font);
+    ctx.textDrawingMode = 'glyph';
+    for (var time = 0; time < 30; time++) {
+        var img = new Image;
+
+        img.src = data;
+        ctx.drawImage(img, 100, 100);
+        ctx.addPage();
+        someText(ctx);
+    }
+    save('glyph_' + (process.argv[2] || '1') + '.pdf', canvas);
 });
+
 /*
 var canvas2 = new Canvas(500, 500, 'pdf')
 var ctx2 = canvas2.getContext('2d');
