@@ -11,12 +11,6 @@ function save(filename, canvas) {
   });
 };
 
-function img(src, ctx, cb) {
-  fs.readFile(__dirname + src, function(err, data) {
-    if(err) throw err
-    cb(data);
-  });
-}
 
 var lorem = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In elementum, nisi eu scelerisque facilisis, urna ligula interdum nulla, hendrerit dignissim elit dui nec justo. Duis erat dolor, mollis vitae tincidunt in, consectetur ut mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pellentesque cursus odio imperdiet iaculis. Nam iaculis sollicitudin semper. Donec vitae tempus elit. Donec ornare fermentum magna, lacinia euismod odio vestibulum sit amet. Integer quis tortor eget est scelerisque commodo. Nulla commodo erat et mi tincidunt at hendrerit urna aliquet. Suspendisse ultrices, enim nec ornare varius, tellus enim vestibulum purus, ut tempus sapien risus a eros. Cras mattis placerat nisi non euismod. Donec urna ante, porttitor quis ornare id, posuere sit amet neque. In libero felis, ultrices non volutpat at, gravida et velit. Cras id lacus justo, gravida tristique purus. Donec ligula augue, gravida eu gravida pharetra, adipiscing id arcu.";
 
@@ -31,19 +25,17 @@ var font = new Font('Noto', "../fonts/noto.ttf");
 var canvas = new Canvas(500, 500, 'pdf')
 var ctx = canvas.getContext('2d');
 
-img('/../img/squid.png', ctx, function(data) {
-    ctx.addFont(font);
-    ctx.textDrawingMode = 'glyph';
-    for (var time = 0; time < 30; time++) {
-        var img = new Image;
-
-        img.src = data;
-        ctx.drawImage(img, 100, 100);
-        ctx.addPage();
-        someText(ctx);
-    }
-    save('glyph_' + (process.argv[2] || '1') + '.pdf', canvas);
-});
+ctx.addFont(font);
+ctx.textDrawingMode = 'glyph';
+var img = new Image;
+img.dataMode = Image.MODE_MIME | Image.MODE_IMAGE;
+img.src = '../img/lime-cat.jpg';
+for (var i = 0; i < 10; i++) {
+    ctx.drawImage(img, 100, 100);
+    ctx.addPage();
+    someText(ctx);
+}
+save('glyph_' + (process.argv[2] || '1') + '.pdf', canvas);
 
 /*
 var canvas2 = new Canvas(500, 500, 'pdf')
